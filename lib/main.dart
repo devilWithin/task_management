@@ -5,7 +5,6 @@ import 'package:task_management_test/injection_container.dart' as di;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   di.init();
-
   runApp(const MyApp());
 }
 
