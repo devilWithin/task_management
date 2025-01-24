@@ -5,11 +5,14 @@ import 'package:task_management_test/features/tasks/domain/entities/task_entity.
 import 'package:task_management_test/features/tasks/domain/entities/update_task_params.dart';
 
 abstract class TaskRepository {
-  Future<Either<FirebaseException, TaskEntity>> createTask(
+  Future<Either<FirebaseException, Unit>> createTask(
       {required CreateTaskParams task});
+
+  Future<Either<FirebaseException, Unit>> changeTaskStatus(
+      {required String id, required int status});
 
   Future<Either<FirebaseException, Unit>> updateTask(
       {required UpdateTaskParams task});
 
-  Future<Either<FirebaseException, Unit>> deleteTask({required int id});
+  Future<Either<FirebaseException, Unit>> deleteTask({required String id});
 }

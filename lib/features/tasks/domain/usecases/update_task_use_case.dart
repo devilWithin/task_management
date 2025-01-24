@@ -14,7 +14,6 @@ class UpdateTaskUseCase {
         id: params.id,
         title: params.title,
         description: params.description,
-        status: params.status,
         dueDate: params.dueDate,
       ),
     );

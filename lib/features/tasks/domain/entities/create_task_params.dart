@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:task_management_test/features/tasks/data/models/create_task_params_model.dart';
-import 'package:task_management_test/features/tasks/domain/entities/status.dart';
 
 class CreateTaskParams extends Equatable {
   final String title;
@@ -22,6 +21,6 @@ extension CreateTaskParamsX on CreateTaskParams {
         title: title,
         description: description,
         dueDate: dueDate,
-        status: Status(id: 0, name: 'todo').toData(),
+        status: 0,
       );
 }

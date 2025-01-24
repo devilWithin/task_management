@@ -57,13 +57,7 @@ extension ValidatedString on String? {
 enum ValidationType {
   email,
   nameEn,
-  nameAr,
   password,
   phone,
   notRequired,
-  postalCode,
-  creditCard,
-  monthExpiryDate,
-  yearExpiryDate,
-  cvv,
 }

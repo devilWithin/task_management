@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_management_test/core/base_state.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
 import 'package:task_management_test/features/auth/domain/usecases/register_use_case.dart';
 
 class RegisterCubit extends Cubit<BaseState<User>> {

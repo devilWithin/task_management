@@ -1,11 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
-import 'package:task_management_test/features/tasks/data/models/status_model.dart';
 
 class CreateTaskParamsModel extends Equatable {
   final String title;
   final String description;
   final DateTime dueDate;
-  final StatusModel status;
+  final int status;
 
   const CreateTaskParamsModel({
     required this.title,
@@ -15,14 +15,15 @@ class CreateTaskParamsModel extends Equatable {
   });
 
   @override
-  List<Object?> get props => [title, description, dueDate];
+  List<Object?> get props => [title, description, dueDate, status];
 
   Map<String, dynamic> toJson() {
     return {
+      'id': '',
       'title': title,
       'description': description,
-      'due_date': dueDate,
-      'status': StatusModel(id: 0, name: 'todo').toJson(),
+      'due_date': Timestamp.fromDate(dueDate),
+      'status': 0,
     };
   }
 }

@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management_test/configs/routing/routes.dart';
-import 'package:task_management_test/core/base_state.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
 import 'package:task_management_test/core/utils/string_validator.dart';
 import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/auth/presentation/cubit/login_cubit.dart';
@@ -38,38 +38,20 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 16,
           children: [
-            TextFormField(
+            CustomTextFormField(
               controller: _emailController,
-              autofillHints: [AutofillHints.email],
-              validator: (value) {
-                if (!value.isValidEmail) {
-                  return 'Please enter a valid email';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                border: OutlineInputBorder(),
-              ),
+              validationType: ValidationType.email,
+              label: 'Email',
+              hint: 'Enter your email',
             ),
-            TextFormField(
+            CustomTextFormField(
               controller: _passwordController,
-              autofillHints: [AutofillHints.password],
-              validator: (value) {
-                if (!value.isValidPassword) {
-                  return 'Please enter a valid password';
-                }
-                return null;
-              },
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                border: OutlineInputBorder(),
-              ),
+              isPassword: true,
+              validationType: ValidationType.password,
+              label: 'Password',
+              hint: 'Enter your password',
             ),
             BlocConsumer<LoginCubit, BaseState<User>>(
-              buildWhen: (previous, current) => previous != current,
               bloc: _loginCubit,
               listener: (context, state) {
                 if (state.isFailure) {

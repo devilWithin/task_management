@@ -9,8 +9,7 @@ class CreateTaskUseCase {
   CreateTaskUseCase({required TaskRepository repository})
       : _repository = repository;
 
-  Future<Either<FirebaseException, TaskEntity>> call(
-      CreateTaskParams params) async {
+  Future<Either<FirebaseException, Unit>> call(CreateTaskParams params) async {
     return await _repository.createTask(task: params);
   }
 }

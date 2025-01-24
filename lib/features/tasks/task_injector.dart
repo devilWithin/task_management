@@ -1,9 +1,11 @@
 import 'package:task_management_test/features/tasks/data/data_source/task_remote_data_source.dart';
 import 'package:task_management_test/features/tasks/data/repositories/task_repository_impl.dart';
 import 'package:task_management_test/features/tasks/domain/repositories/task_repository.dart';
+import 'package:task_management_test/features/tasks/domain/usecases/change_task_status_use_case.dart';
 import 'package:task_management_test/features/tasks/domain/usecases/create_task_use_case.dart';
 import 'package:task_management_test/features/tasks/domain/usecases/delete_task_use_case.dart';
 import 'package:task_management_test/features/tasks/domain/usecases/update_task_use_case.dart';
+import 'package:task_management_test/features/tasks/presentation/cubit/change_task_status_cubit.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/create_task_cubit.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/delete_task_cubit.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/update_task_cubit.dart';
@@ -21,6 +23,10 @@ void setupTaskInjector() {
     () => DeleteTaskCubit(useCase: sl()),
   );
 
+  sl.registerLazySingleton<ChangeTaskStatusCubit>(
+    () => ChangeTaskStatusCubit(useCase: sl()),
+  );
+
   // UseCase
   sl.registerLazySingleton<CreateTaskUseCase>(
     () => CreateTaskUseCase(repository: sl()),
@@ -32,6 +38,10 @@ void setupTaskInjector() {
 
   sl.registerLazySingleton<DeleteTaskUseCase>(
     () => DeleteTaskUseCase(repository: sl()),
+  );
+
+  sl.registerLazySingleton<ChangeTaskStatusUseCase>(
+    () => ChangeTaskStatusUseCase(repository: sl()),
   );
 
   // Repository

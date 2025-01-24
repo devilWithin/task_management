@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:task_management_test/core/base_state.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management_test/features/auth/domain/usecases/login_use_case.dart';
 

@@ -1,10 +1,10 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_management_test/core/base_state.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
 import 'package:task_management_test/features/tasks/domain/entities/create_task_params.dart';
-import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
 import 'package:task_management_test/features/tasks/domain/usecases/create_task_use_case.dart';
 
-class CreateTaskCubit extends Cubit<BaseState<TaskEntity>> {
+class CreateTaskCubit extends Cubit<BaseState<Unit>> {
   final CreateTaskUseCase _useCase;
   CreateTaskCubit({required CreateTaskUseCase useCase})
       : _useCase = useCase,

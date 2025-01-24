@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_management_test/core/base_state.dart';
-import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
+import 'package:intl/intl.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
+import 'package:task_management_test/core/utils/string_validator.dart';
 import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/tasks/domain/entities/create_task_params.dart';
-import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/create_task_cubit.dart';
 import 'package:task_management_test/injection_container.dart';
 
@@ -36,11 +36,17 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
       body: Column(
         spacing: 16,
         children: [
-          TextFormField(
+          CustomTextFormField(
             controller: _titleController,
+            validationType: ValidationType.nameEn,
+            hint: 'Title',
+            label: 'Enter the title',
           ),
-          TextFormField(
+          CustomTextFormField(
             controller: _descriptionController,
+            validationType: ValidationType.nameEn,
+            hint: 'Description',
+            label: 'Enter the description',
           ),
           Row(
             spacing: 8,
@@ -58,7 +64,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                   );
                   if (selectedDate != null) {
                     setState(() {
-                      dueData = selectedDate.toString();
+                      dueData = DateFormat('yMMMd').format(selectedDate!);
+                      selectedDate = DateTime(
+                        selectedDate!.year,
+                        selectedDate!.month,
+                        selectedDate!.day,
+                        DateTime.now().hour,
+                        DateTime.now().minute + 32,
+                      );
                     });
                   }
                 },
@@ -66,7 +79,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               ),
             ],
           ),
-          BlocConsumer<CreateTaskCubit, BaseState<TaskEntity>>(
+          BlocConsumer<CreateTaskCubit, BaseState<void>>(
             bloc: _createTaskCubit,
             listenWhen: (previous, current) => previous != current,
             listener: (context, state) {
@@ -85,11 +98,11 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                 return const CircularProgressIndicator();
               }
               return CustomElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_titleController.text.isNotEmpty &&
                       _descriptionController.text.isNotEmpty &&
                       dueData != null) {
-                    _createTaskCubit.createTask(
+                    await _createTaskCubit.createTask(
                       task: CreateTaskParams(
                         title: _titleController.text,
                         description: _descriptionController.text,

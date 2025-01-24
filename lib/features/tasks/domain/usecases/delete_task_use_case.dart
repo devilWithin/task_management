@@ -7,7 +7,7 @@ class DeleteTaskUseCase {
   DeleteTaskUseCase({required TaskRepository repository})
       : _repository = repository;
 
-  Future<Either<FirebaseException, Unit>> call(int params) async {
+  Future<Either<FirebaseException, Unit>> call(String params) async {
     return await _repository.deleteTask(id: params);
   }
 }

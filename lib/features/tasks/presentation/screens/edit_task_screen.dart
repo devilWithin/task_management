@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task_management_test/core/base_state.dart';
-import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
+import 'package:intl/intl.dart';
+import 'package:task_management_test/core/widgets/base_state.dart';
+import 'package:task_management_test/core/utils/string_validator.dart';
 import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
+import 'package:task_management_test/features/tasks/domain/entities/update_task_params.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/update_task_cubit.dart';
 import 'package:task_management_test/injection_container.dart';
 
@@ -20,6 +22,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   final _descriptionController = TextEditingController();
   final _updateTaskCubit = sl<UpdateTaskCubit>();
   late String dueData;
+  DateTime? selectedDate;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -46,30 +49,26 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         child: Column(
           spacing: 16,
           children: [
-            TextFormField(
+            CustomTextFormField(
               controller: _titleController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Title is required';
-                }
-                if (_titleController.text.contains(widget.taskEntity.title)) {
-                  return 'Title is same as previous';
-                }
-                return null;
-              },
+              validationType: ValidationType.nameEn,
+              hint: 'Title',
+              label: 'Enter the title',
+              // validator: (value) {
+              //   if (value == null || value.isEmpty) {
+              //     return 'Title is required';
+              //   }
+              //   if (_titleController.text.contains(widget.taskEntity.title)) {
+              //     return 'Title is same as previous';
+              //   }
+              //   return null;
+              // },
             ),
-            TextFormField(
+            CustomTextFormField(
               controller: _descriptionController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Description is required';
-                }
-                if (_descriptionController.text
-                    .contains(widget.taskEntity.description)) {
-                  return 'Description is same as previous';
-                }
-                return null;
-              },
+              validationType: ValidationType.nameEn,
+              hint: 'Description',
+              label: 'Enter the description',
             ),
             Row(
               spacing: 8,
@@ -79,7 +78,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 ),
                 IconButton(
                   onPressed: () async {
-                    final selectedDate = await showDatePicker(
+                    selectedDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
                       firstDate: DateTime.now(),
@@ -87,7 +86,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     );
                     if (selectedDate != null) {
                       setState(() {
-                        dueData = selectedDate.toString();
+                        dueData = DateFormat('yMMMd').format(selectedDate!);
                       });
                     }
                   },
@@ -113,7 +112,16 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 }
                 return CustomElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      _updateTaskCubit.updateTask(
+                        params: UpdateTaskParams(
+                          id: widget.taskEntity.id,
+                          title: _titleController.text,
+                          description: _descriptionController.text,
+                          dueDate: selectedDate,
+                        ),
+                      );
+                    }
                   },
                   title: 'Update',
                 );
