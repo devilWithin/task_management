@@ -53,6 +53,13 @@
 - So i used a file named after the name of the feature like (auth_injection.dart) to hold the dependencies of the feature.
 - This approach makes the code more readable and maintainable.
 
+## Desired Business:
+
+- The user can add a task with a title, description and due date.
+- The user can perform CRUD operations on the task.
+- The user can change the status of the task by Long Pressing on the task.
+- For the sake of the task, Tasks is created with due date after 32 minutes to test the notification feature.
+
 # Suggestions:
 
 - A better approach to the solution is that each user should have its own tasks.
