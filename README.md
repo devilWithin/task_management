@@ -4,8 +4,7 @@
 
 # Project Structure:
 
-- The project is structured in a clean architecture way, my approach to the solution that it would be scalable
-- in the future and maybe the stakeholders or people responsible for business would ask for new features.
+- The project is structured in a clean architecture way, my approach to the solution that it would be scalable in the future and maybe the stakeholders or people responsible for business would ask for new features.
 - The project is divided into the following folders:
     - Configs
     - Core
