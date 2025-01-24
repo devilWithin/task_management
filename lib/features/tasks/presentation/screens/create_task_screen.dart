@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management_test/core/base_state.dart';
 import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
+import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/tasks/domain/entities/create_task_params.dart';
 import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/create_task_cubit.dart';
@@ -30,10 +31,8 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Task'),
-      ),
+    return ScaffoldWithTitle(
+      title: 'Add Task',
       body: Column(
         spacing: 16,
         children: [

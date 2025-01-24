@@ -9,8 +9,11 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      ///TODO -- CHANGE TILE COLOR BASED ON THE STATUS OF THE TASK
-      ///
+      tileColor: taskEntity.status.id == 0
+          ? Colors.orange
+          : taskEntity.status.id == 1
+              ? Colors.white
+              : Colors.green,
       leading: InkWell(
         onTap: () {
           Navigator.of(context)
@@ -19,7 +22,20 @@ class TaskItem extends StatelessWidget {
         child: Icon(Icons.edit),
       ),
       title: Text(taskEntity.title),
-      subtitle: Text(taskEntity.description),
+      trailing: InkWell(
+        onTap: () {
+          // delete task
+        },
+        child: Icon(Icons.delete),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
+        children: [
+          Text(taskEntity.description),
+          Text(taskEntity.dueDate.toString()),
+        ],
+      ),
     );
   }
 }

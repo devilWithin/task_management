@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management_test/core/base_state.dart';
 import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
+import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
 import 'package:task_management_test/features/tasks/presentation/cubit/update_task_cubit.dart';
 import 'package:task_management_test/injection_container.dart';
@@ -38,10 +39,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Task'),
-      ),
+    return ScaffoldWithTitle(
+      title: 'Edit Task',
       body: Form(
         key: _formKey,
         child: Column(

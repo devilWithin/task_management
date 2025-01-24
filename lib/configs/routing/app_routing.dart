@@ -11,10 +11,10 @@ class AppRouting {
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.home:
-        return _customPageRoute(TasksScreen());
-
-      case Routes.login:
         return _customPageRoute(LoginScreen());
+
+      case Routes.tasksScreen:
+        return _customPageRoute(TasksScreen());
 
       case Routes.register:
         return _customPageRoute(RegisterScreen());

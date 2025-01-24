@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:task_management_test/configs/routing/routes.dart';
 import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
-import 'package:task_management_test/features/tasks/domain/entities/task_entity.dart';
+import 'package:task_management_test/core/widgets/widgets.dart';
+import 'package:task_management_test/features/tasks/data/models/task_model.dart';
 import 'package:task_management_test/features/tasks/presentation/widgets/task_item.dart';
 
 class TasksScreen extends StatefulWidget {
@@ -19,8 +20,8 @@ class _TasksScreenState extends State<TasksScreen> {
       .snapshots();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomAppBar(
+    return ScaffoldWithTitle(
+      bottomWidget: BottomAppBar(
         child: CustomElevatedButton(
           onPressed: () {
             Navigator.of(context).pushNamed(Routes.createTaskScreen);
@@ -28,32 +29,27 @@ class _TasksScreenState extends State<TasksScreen> {
           title: 'Add',
         ),
       ),
-      appBar: AppBar(
-        title: const Text('Tasks'),
-      ),
+      title: 'Tasks',
       body: StreamBuilder<QuerySnapshot>(
           stream: tasksStream,
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
             List<TaskItem> tasksList = [];
-            final tasks = snapshot.data!.docs.reversed;
+            final tasks = snapshot.data!.docChanges;
             for (var task in tasks) {
-              final title = task.get('title');
-              final description = task.get('description');
-              final status = task.get('status');
-              final dueDate = task.get('due_date');
-              final id = task.get('id');
+              final taskModel =
+                  TaskModel.fromJson(task.doc.data() as Map<String, dynamic>);
+              final taskEntity = taskModel.toDomain();
               final taskItem = TaskItem(
-                  taskEntity: TaskEntity(
-                id: id,
-                title: title,
-                description: description,
-                status: status,
-                dueDate: dueDate,
-              ));
+                taskEntity: taskEntity,
+              );
               tasksList.add(taskItem);
             }
             return ListView(
-              reverse: true,
               children: tasksList,
             );
           }),

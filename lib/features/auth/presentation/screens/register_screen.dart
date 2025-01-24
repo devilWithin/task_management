@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_management_test/configs/routing/routes.dart';
 import 'package:task_management_test/core/base_state.dart';
+import 'package:task_management_test/core/settings/screen_settings.dart';
 import 'package:task_management_test/core/utils/string_validator.dart';
+import 'package:task_management_test/core/widgets/custom_elevated_button.dart';
+import 'package:task_management_test/core/widgets/widgets.dart';
 import 'package:task_management_test/features/auth/presentation/cubit/register_cubit.dart';
 import 'package:task_management_test/injection_container.dart';
 
@@ -31,13 +34,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Register'),
-      ),
+    return ScaffoldWithTitle(
+      title: 'Register',
       body: Form(
         key: _formKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           spacing: 16,
           children: [
             TextFormField(
@@ -60,13 +62,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               autofillHints: [AutofillHints.password],
               validator: (value) {
                 if (!value.isValidPassword) {
-                  return 'Please enter a valid password';
+                  return 'Password Must be more than 5 Characters Alpha Numeric & Symbols';
                 }
                 return null;
               },
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Enter your password',
+                errorMaxLines: 2,
                 border: OutlineInputBorder(),
               ),
             ),
@@ -96,14 +99,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   );
                 } else if (state.isSuccess) {
-                  Navigator.of(context).pushNamed(Routes.home);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.tasksScreen, (route) => false);
                 }
               },
               builder: (context, state) {
                 if (state.isInProgress) {
                   return CircularProgressIndicator();
                 }
-                return ElevatedButton(
+                return CustomElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _registerCubit.register(
@@ -112,7 +116,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       );
                     }
                   },
-                  child: Text('Login'),
+                  title: 'Create Account',
                 );
               },
             ),
